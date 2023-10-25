@@ -22,11 +22,12 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
+      if: steps.yarn-cache.outputs.cache-hit != 'true' # Over here!
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-        cache-dependency-path: 'package-lock.json'
+        # cache-dependency-path: 'package-lock.json'
     - run: npm ci
       working-directory: client
     - run: npm test
